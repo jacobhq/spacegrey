@@ -17,6 +17,7 @@ import {
   import { FavouriteButton } from './favouriteButton'
   import { PriceTag } from './priceTag'
   import { Product } from '../lib/data'
+  import { useRouter } from 'next/router'
   
   interface Props {
     product: Product
@@ -25,7 +26,13 @@ import {
   
   export const ProductCard = (props: Props) => {
     const { product, rootProps } = props
-    const { name, imageUrl, price, salePrice, rating } = product
+    const { name, imageUrl, price, salePrice, rating, buyUrl } = product
+    const router = useRouter()
+
+    function buy () {
+      router.push(buyUrl)
+    }
+
     return (
       <Stack spacing={useBreakpointValue({ base: '4', md: '5' })} {...rootProps}>
         <Box position="relative">
@@ -60,8 +67,8 @@ import {
           </HStack>
         </Stack>
         <Stack align="center">
-          <Button colorScheme="blue" isFullWidth>
-            Add to cart
+          <Button colorScheme="blue" isFullWidth onClick={buy}>
+            Buy now
           </Button>
           <Link
             textDecoration="underline"

@@ -28,6 +28,11 @@ export default function Layout({ children, title }: layoutProps) {
     return router.push('/api/auth/login')
   }
 
+  function logout () {
+    setLoading(true)
+    return router.push('/api/auth/logout')
+  }
+
   return (
     <div>
       <Head>
@@ -50,11 +55,8 @@ export default function Layout({ children, title }: layoutProps) {
                 <IconButton variant="ghost" icon={<UnlockIcon />} aria-label="Log in" isLoading={isLoading || authLoading} onClick={authClick} />
               </Tooltip>}
               <MenuList>
-                <MenuItem>Download</MenuItem>
-                <MenuItem>Create a Copy</MenuItem>
-                <MenuItem>Mark as Draft</MenuItem>
-                <MenuItem>Delete</MenuItem>
-                <MenuItem>Attend a Workshop</MenuItem>
+                <MenuItem>View wishlist</MenuItem>
+                <MenuItem onClick={logout}>Logout</MenuItem>
               </MenuList>
             </Menu>
             <Tooltip label={'Set theme to'.concat(' ', colorMode === 'light' ? 'dark' : 'light')} aria-label={'Set theme to'.concat(' ', colorMode === 'light' ? 'dark' : 'light')}>
