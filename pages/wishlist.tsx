@@ -7,12 +7,12 @@ import { products } from '../lib/data'
 import { ProductGrid } from '../components/productGrid'
 import { useUser } from '@auth0/nextjs-auth0'
 
-const Home: NextPage = () => {
+const Wishlist: NextPage = () => {
   const { user, error, isLoading: authLoading } = useUser()
 
   return (
     <div>
-      <Layout>
+      <Layout title='Wishlist'>
         <main>
           <Box
             maxW="7xl"
@@ -32,4 +32,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export default Wishlist

@@ -26,7 +26,8 @@ export const images = [
       description:
         'With a sleek design and a captivating essence, this is a modern Classic made for every occasion.',
       images,
-      buyUrl: ''
+      buyUrl: '',
+      marketplace: 'Amazon'
     },
     {
       id: '2',
@@ -40,7 +41,8 @@ export const images = [
       description:
         'With a sleek design and a captivating essence, this is a modern Classic made for every occasion.',
       images,
-      buyUrl: 'https://shop.pimoroni.com/products/argon-one-m-2-case-for-raspberry-pi-4'
+      buyUrl: 'https://shop.pimoroni.com/products/argon-one-m-2-case-for-raspberry-pi-4',
+      marketplace: 'Pimoroni'
     }
   ]
   
