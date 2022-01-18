@@ -57,8 +57,8 @@ export default function Layout({ children, title }: layoutProps) {
                 <MenuItem>Attend a Workshop</MenuItem>
               </MenuList>
             </Menu>
-            <Tooltip label={'Set theme to ' + colorMode === 'light' ? 'light' : 'dark'} aria-label={'Set theme to ' + colorMode === 'light' ? 'light' : 'dark'}>
-              <IconButton variant="ghost" onClick={toggleColorMode} icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />} aria-label={'Set theme to ' + colorMode === 'light' ? 'light' : 'dark'} />
+            <Tooltip label={'Set theme to'.concat(' ', colorMode === 'light' ? 'dark' : 'light')} aria-label={'Set theme to'.concat(' ', colorMode === 'light' ? 'dark' : 'light')}>
+              <IconButton variant="ghost" onClick={toggleColorMode} icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />} aria-label={'Set theme to'.concat(' ', colorMode === 'light' ? 'dark' : 'light')} />
             </Tooltip>
           </ButtonGroup>
         </HStack>
