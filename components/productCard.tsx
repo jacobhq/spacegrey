@@ -2,6 +2,7 @@ import {
     AspectRatio,
     Box,
     Button,
+    Center,
     HStack,
     Image,
     Link,
@@ -18,6 +19,7 @@ import {
   import { PriceTag } from './priceTag'
   import { Product } from '../lib/data'
   import { useRouter } from 'next/router'
+  import { useUser } from '@auth0/nextjs-auth0'
   
   interface Props {
     product: Product
@@ -28,6 +30,8 @@ import {
     const { product, rootProps } = props
     const { name, imageUrl, price, salePrice, rating, buyUrl } = product
     const router = useRouter()
+    const { user, error, isLoading: authLoading } = useUser()
+    const radius = useBreakpointValue({ base: 'md', md: 'xl' })
 
     function buy () {
       router.push(buyUrl)
@@ -37,15 +41,19 @@ import {
       <Stack spacing={useBreakpointValue({ base: '4', md: '5' })} {...rootProps}>
         <Box position="relative">
           <AspectRatio ratio={4 / 3}>
-            <Image
+            {authLoading ? <Skeleton /> : user ? <Image
               src={imageUrl}
               alt={name}
               draggable="false"
               fallback={<Skeleton />}
-              borderRadius={useBreakpointValue({ base: 'md', md: 'xl' })}
-            />
+              borderRadius={radius}
+            /> : <Center>
+                <Text>You'll need to log in</Text>
+              </Center>}
           </AspectRatio>
           <FavouriteButton
+            hidden={!user}
+            isLoading={authLoading}
             position="absolute"
             top="4"
             right="4"
@@ -55,9 +63,9 @@ import {
         <Stack>
           <Stack spacing="1">
             <Text fontWeight="medium" color={useColorModeValue('gray.700', 'gray.400')}>
-              {name}
+              {user ? name : ''}
             </Text>
-            <PriceTag price={price} salePrice={salePrice} currency="USD" />
+            <PriceTag price={price} salePrice={salePrice} currency="GBP" />
           </Stack>
           <HStack hidden>
             <Rating defaultValue={rating} size="sm" />
