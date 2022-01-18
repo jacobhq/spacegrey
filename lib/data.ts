@@ -1,7 +1,7 @@
 export const images = [
     {
       id: '01',
-      src: 'https://images.unsplash.com/photo-1605640194493-44894a08b57d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+      src: 'https://www.logitech.com/content/dam/logitech/en/products/keyboards/mx-keys/gallery/deu-mx-keys-gallery-npr-graphite-front.png',
       alt: 'MX Keys',
     },
     {
@@ -20,7 +20,7 @@ export const images = [
       salePrice: 0,
       flag: 'new',
       imageUrl:
-        'https://images.unsplash.com/photo-1605640194493-44894a08b57d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80',
+        'https://www.logitech.com/content/dam/logitech/en/products/keyboards/mx-keys/gallery/deu-mx-keys-gallery-npr-graphite-front.png',
       rating: 4,
       ratingCount: 1,
       description:
