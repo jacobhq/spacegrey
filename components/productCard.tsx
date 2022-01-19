@@ -12,6 +12,7 @@ import {
   Text,
   useBreakpointValue,
   useColorModeValue,
+  useToast
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { Rating } from './rating'
@@ -33,8 +34,9 @@ export const ProductCard = (props: Props) => {
   const { user, error, isLoading: authLoading } = useUser()
   const radius = useBreakpointValue({ base: 'md', md: 'xl' })
   const [buying, setBuying] = useState('')
+  const toast = useToast()
 
-  function buy () {
+  function buy() {
     setBuying(id)
     router.push(buyUrl)
   }
@@ -58,6 +60,14 @@ export const ProductCard = (props: Props) => {
           top="4"
           right="4"
           aria-label={`Add ${name} to your favourites`}
+          onClick={() =>
+            toast({
+              title: 'Wishlist on the way',
+              description: "We're still building the wishlist!",
+              status: 'warning',
+              isClosable: true,
+            })
+          }
         />
       </Box>
       <Stack>
