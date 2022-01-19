@@ -7,7 +7,6 @@ import { UnlockIcon } from '@chakra-ui/icons'
 import { useUser, handleLogin } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router'
 import { products } from '../lib/data'
-import { WishlistMeta } from './wishlistMeta'
 
 type layoutProps = {
   title?: string,
