@@ -5,8 +5,11 @@ import * as React from 'react'
 import { ProductCard } from '../components/productCard'
 import { products } from '../lib/data'
 import { ProductGrid } from '../components/productGrid'
+import { useUser } from '@auth0/nextjs-auth0'
 
 const Home: NextPage = () => {
+  const { user, error, isLoading: authLoading } = useUser()
+
   return (
     <div>
       <Layout>
