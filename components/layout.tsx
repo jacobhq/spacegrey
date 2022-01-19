@@ -8,6 +8,7 @@ import { useUser, handleLogin } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router'
 import { products } from '../lib/data'
 import { WishlistMeta } from './wishlistMeta'
+import Wishlist from './wishlist'
 
 type layoutProps = {
   title?: string,
@@ -66,11 +67,7 @@ export default function Layout({ children, title }: layoutProps) {
                     <ModalHeader>Wishlist</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                      <VStack>
-                        {products.map((product) => (
-                          <WishlistMeta key={product.id} name={product.name} description={product.description} image={product.imageUrl} modal />
-                        ))}
-                      </VStack>
+                      <Wishlist />
                     </ModalBody>
 
                     <ModalFooter>
