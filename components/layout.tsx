@@ -2,7 +2,7 @@ import { HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 import { Container, Heading, HStack, IconButton, useColorMode, Text, Box, ButtonGroup, MenuButton, Menu, MenuList, MenuItem, Skeleton, Tooltip, MenuDivider, Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { ReactNode, useRef, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { UnlockIcon } from '@chakra-ui/icons'
 import { useUser, handleLogin } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router'
@@ -19,7 +19,6 @@ export default function Layout({ children, title }: layoutProps) {
   const [isLoading, setLoading] = useState(false)
   const router = useRouter()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const main = useRef()
 
   function authClick() {
     console.log('called', user)
@@ -59,7 +58,7 @@ export default function Layout({ children, title }: layoutProps) {
               </Tooltip>}
               <MenuList>
                 <MenuItem onClick={onOpen}>View wishlist</MenuItem>
-                <Modal isOpen={isOpen} onClose={onClose} finalFocusRef={main}>
+                <Modal isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay />
                   <ModalContent>
                     <ModalHeader>Wishlist</ModalHeader>
@@ -86,7 +85,7 @@ export default function Layout({ children, title }: layoutProps) {
             </Tooltip>
           </ButtonGroup>
         </HStack>
-        <Box mt={16} ref={main}>
+        <Box mt={16}>
           {children}
         </Box>
       </Container>
