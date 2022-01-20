@@ -26,7 +26,7 @@ export const products = [
     description:
       'With a sleek design and a captivating essence, this is a modern Classic made for every occasion.',
     images,
-    buyUrl: '',
+    buyUrl: 'https://www.amazon.co.uk/Logitech-Advanced-Illuminated-Bluetooth-Responsive/dp/B07W6HXZ5J?th=1',
     marketplace: 'Amazon'
   },
   {

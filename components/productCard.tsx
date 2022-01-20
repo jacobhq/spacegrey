@@ -39,6 +39,9 @@ export const ProductCard = (props: Props) => {
   function buy() {
     setBuying(id)
     router.push(buyUrl)
+    setTimeout(function() {
+      setBuying('')
+    }, 3000)
   }
 
   return (
