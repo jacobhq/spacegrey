@@ -55,7 +55,7 @@ export default function Layout({ children, title }: layoutProps) {
           </div>
           <ButtonGroup>
             <Menu>
-              {authLoading ? <IconButton variant="ghost" icon={<UnlockIcon />} aria-label="Log in" isLoading={isLoading || authLoading} onClick={authClick} /> : user ? <Tooltip isDisabled={isOpen} label="Open menu" aria-label="Open menu">
+              {authLoading ? <IconButton variant="ghost" icon={<UnlockIcon />} aria-label="Log in" isLoading={isLoading || authLoading} onClick={authClick} /> : user ? <Tooltip isDisabled={isOpen || isDonateOpen} label="Open menu" aria-label="Open menu">
                 <MenuButton as={IconButton} variant="ghost" icon={<HamburgerIcon />} aria-label="Open menu" isLoading={isLoading || authLoading} onClick={authClick} />
               </Tooltip> : <Tooltip label="Log in" aria-label="Log in">
                 <IconButton variant="ghost" icon={<UnlockIcon />} aria-label="Log in" isLoading={isLoading || authLoading} onClick={authClick} />
