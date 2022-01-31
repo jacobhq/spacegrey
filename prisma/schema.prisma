@@ -1,10 +1,37 @@
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "postgresql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("DATABASE_MIGRATE_URL")
   referentialIntegrity = "prisma"
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["dataproxy", "referentialIntegrity"]
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  WishlistItem WishlistItem[]
+}
+
+model Product {
+  id           Int            @id @default(autoincrement())
+  name         String
+  price        Int
+  salePrice    Int            @default(0)
+  imageUrl     String
+  flag         String?
+  description  String?
+  buyUrl       String
+  marketplace  String?
+  WishlistItem WishlistItem[]
+}
+
+model WishlistItem {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  productId Int
+  Product   Product @relation(fields: [productId], references: [id])
+  User      User    @relation(fields: [userId], references: [id])
 }
