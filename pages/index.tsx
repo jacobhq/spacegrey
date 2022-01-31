@@ -3,11 +3,11 @@ import Layout from '../components/layout'
 import { Box } from '@chakra-ui/react'
 import * as React from 'react'
 import { ProductCard } from '../components/productCard'
-import { products } from '../lib/data'
 import { ProductGrid } from '../components/productGrid'
 import { useUser } from '@auth0/nextjs-auth0'
+import { prisma, PrismaClient } from '@prisma/client'
 
-const Home: NextPage = () => {
+export default function Home ({products}): any {
   const { user, error, isLoading: authLoading } = useUser()
 
   return (
@@ -32,4 +32,8 @@ const Home: NextPage = () => {
   )
 }
 
-export default Home
+export const getServerSideProps = async ({}) => {
+  const prisma = new PrismaClient()
+  const products = await prisma.product.findMany()
+  return { props: { products } }
+}

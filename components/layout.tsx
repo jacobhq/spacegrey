@@ -1,5 +1,5 @@
 import { HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
-import { Container, Heading, HStack, IconButton, useColorMode, Text, Box, ButtonGroup, MenuButton, Menu, MenuList, MenuItem, Skeleton, Tooltip, MenuDivider, Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useToast, Link, Slider, SliderFilledTrack, SliderThumb, SliderTrack } from '@chakra-ui/react'
+import { Container, Heading, HStack, IconButton, useColorMode, Text, Box, ButtonGroup, MenuButton, Menu, MenuList, MenuItem, Skeleton, Tooltip, MenuDivider, Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useToast, Link, Slider, SliderFilledTrack, SliderThumb, SliderTrack, AspectRatio } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { ReactNode, useState } from 'react'
@@ -61,28 +61,28 @@ export default function Layout({ children, title }: layoutProps) {
                 <IconButton variant="ghost" icon={<UnlockIcon />} aria-label="Log in" isLoading={isLoading || authLoading} onClick={authClick} />
               </Tooltip>}
               <MenuList>
-                <MenuItem onClick={() =>
-                  toast({
-                    title: 'Wishlist on the way',
-                    description: "We're still building the wishlist!",
-                    status: 'warning',
-                    isClosable: true,
-                  })
-                }>View wishlist</MenuItem>
+                <MenuItem onClick={onOpen}>View wishlist</MenuItem>
                 <Modal isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay />
                   <ModalContent>
                     <ModalHeader>Wishlist</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-
+                      <HStack>
+                        <AspectRatio ratio={1} w="100px">
+                          <Skeleton borderRadius={6} />
+                        </AspectRatio>
+                        <VStack align="start">
+                          <Heading size="sm">Logi</Heading>
+                          <Text>Foo</Text>
+                        </VStack>
+                      </HStack>
                     </ModalBody>
 
                     <ModalFooter>
-                      <Button colorScheme='blue' mr={3} onClick={onClose}>
+                      <Button colorScheme='blue' onClick={onClose}>
                         Close
                       </Button>
-                      <Button variant='ghost'>Secondary Action</Button>
                     </ModalFooter>
                   </ModalContent>
                 </Modal>
