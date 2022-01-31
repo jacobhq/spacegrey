@@ -7,7 +7,7 @@ import { ProductGrid } from '../components/productGrid'
 import { useUser } from '@auth0/nextjs-auth0'
 import { prisma, PrismaClient } from '@prisma/client'
 
-export default function Home ({products}): any {
+export default function Home ({products}: any): any {
   const { user, error, isLoading: authLoading } = useUser()
 
   return (
@@ -21,7 +21,7 @@ export default function Home ({products}): any {
             py={{ base: '6', md: '8', lg: '12' }}
           >
             <ProductGrid>
-              {products.map((product) => (
+              {products.map((product: { id: string; name: string; currency: string; price: number; salePrice: number; flag: string; imageUrl: string; rating: number; ratingCount: number; description: string; images: { id: string; src: string; alt: string }[]; buyUrl: string; marketplace: string } | { id: string; name: string; currency: string; price: number; imageUrl: string; rating: number; ratingCount: number; description: string; images: { id: string; src: string; alt: string }[]; buyUrl: string; marketplace: string; salePrice?: undefined; flag?: undefined }) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </ProductGrid>
