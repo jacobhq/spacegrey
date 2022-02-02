@@ -10,6 +10,7 @@ generator client {
 
 model User {
   id           Int            @id @default(autoincrement())
+  auth0Id      String         @unique
   WishlistItem WishlistItem[]
 }
 
