@@ -2,12 +2,10 @@ datasource db {
   provider             = "postgresql"
   url                  = env("DATABASE_URL")
   shadowDatabaseUrl    = env("DATABASE_MIGRATE_URL")
-  referentialIntegrity = "prisma"
 }
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["dataproxy", "referentialIntegrity"]
 }
 
 model User {
