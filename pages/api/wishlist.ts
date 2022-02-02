@@ -17,9 +17,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
     })
 
+    const result = wishlist.map(({productId})=>(productId))
+
     const finalProducts = await prisma.product.findMany({
         where: {
-            id: wishlist[0].productId
+            id: {in: result}
         }
     })
 
