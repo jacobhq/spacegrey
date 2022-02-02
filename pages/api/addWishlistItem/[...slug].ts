@@ -25,6 +25,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         }
     })
 
+    const itemExists = await prisma.wishlistItem.findMany({
+        where: {
+            userId: user[0].id
+        }
+    })
+
+    if (itemExists) return res.status(409).send('Item already on wishlist')
+
     const create = await prisma.wishlistItem.create({
         data: {
             User: { connect: { id: user[0].id } },
