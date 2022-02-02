@@ -17,7 +17,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
     })
 
-    return res.status(200).send(wishlist)
+    const finalProducts = await prisma.product.findMany({
+        where: {
+            id: wishlist[0].productId
+        }
+    })
+
+    console.log(wishlist)
+
+    return res.status(200).send(finalProducts)
 }
 
 
