@@ -6,15 +6,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const session = getSession(req, res)
     const user = await prisma.user.findMany({
         where: {
-            auth0Id: session?.user.sub
+            // @ts-ignore
+            auth0Id: session.user.sub
         }
     })
 
     const wishlist = await prisma.wishlistItem.findMany({
         where: {
-            // @ts-ignore
-            userId: user.id
-        },
+            userId: user[0].id
+        }
     })
 
     return res.status(200).send(wishlist)

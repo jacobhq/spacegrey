@@ -1,8 +1,8 @@
 import { HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
-import { Container, Heading, HStack, IconButton, useColorMode, Text, Box, ButtonGroup, MenuButton, Menu, MenuList, MenuItem, Skeleton, Tooltip, MenuDivider, Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useToast, Link, Slider, SliderFilledTrack, SliderThumb, SliderTrack, AspectRatio } from '@chakra-ui/react'
-import type { NextPage } from 'next'
+import { Container, Heading, HStack, IconButton, useColorMode, Text, Box, ButtonGroup, MenuButton, Menu, MenuList, MenuItem, Skeleton, Tooltip, MenuDivider, Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useToast, Link, Slider, SliderFilledTrack, SliderThumb, SliderTrack, AspectRatio, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
+import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
-import { ReactNode, useState } from 'react'
+import { Key, ReactNode, useState } from 'react'
 import { UnlockIcon } from '@chakra-ui/icons'
 import { useUser, handleLogin, getSession } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router'
@@ -52,6 +52,17 @@ export default function Layout({ children, title }: layoutProps) {
       <Container mt={16} maxW='container.lg'>
         <HStack justify="space-between">
           <div>
+          <Box mb={4} hidden={!title}>
+              <Breadcrumb>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href='/'>Home</BreadcrumbLink>
+                </BreadcrumbItem>
+
+                <BreadcrumbItem isCurrentPage>
+                  <BreadcrumbLink href='#'>{title}</BreadcrumbLink>
+                </BreadcrumbItem>
+              </Breadcrumb>
+            </Box>
             <Heading mb={2}>{title ? title : 'Matte black'}</Heading>
             <Text>Really cool matte black accessories that go together so well!</Text>
           </div>
@@ -63,31 +74,7 @@ export default function Layout({ children, title }: layoutProps) {
                 <IconButton variant="ghost" icon={<UnlockIcon />} aria-label="Log in" isLoading={isLoading || authLoading} onClick={authClick} />
               </Tooltip>}
               <MenuList>
-                <MenuItem onClick={onOpen}>View wishlist</MenuItem>
-                <Modal isOpen={isOpen} onClose={onClose}>
-                  <ModalOverlay />
-                  <ModalContent>
-                    <ModalHeader>Wishlist</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                      <HStack>
-                        <AspectRatio ratio={1} w="100px">
-                          <Skeleton borderRadius={6} />
-                        </AspectRatio>
-                        <VStack align="start">
-                          <Heading size="sm">Logi</Heading>
-                          <Text>Foo</Text>
-                        </VStack>
-                      </HStack>
-                    </ModalBody>
-
-                    <ModalFooter>
-                      <Button colorScheme='blue' onClick={onClose}>
-                        Close
-                      </Button>
-                    </ModalFooter>
-                  </ModalContent>
-                </Modal>
+                <MenuItem onClick={() => router.push('/wishlist')}>View wishlist</MenuItem>
                 <MenuItem onClick={logout}>Logout</MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={onDonateOpen}>Donate to JacobHQ</MenuItem>
