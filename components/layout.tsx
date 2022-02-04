@@ -75,6 +75,7 @@ export default function Layout({ children, title }: layoutProps) {
               </Tooltip>}
               <MenuList>
                 <MenuItem onClick={() => router.push('/wishlist')}>View wishlist</MenuItem>
+                <MenuItem onClick={() => router.push('https://id.jacob.omg.lol')}>Manage account</MenuItem>
                 <MenuItem onClick={logout}>Logout</MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={onDonateOpen}>Donate to JacobHQ</MenuItem>
