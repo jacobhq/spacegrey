@@ -1,8 +1,8 @@
-import { getSession } from '@auth0/nextjs-auth0'
+import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../lib/prisma'
 
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+async function handle(req: NextApiRequest, res: NextApiResponse) {
     const { slug } = req.query
     const session = getSession(req, res)
     const userExists = await prisma.user.findMany({
@@ -43,3 +43,5 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
     res.status(201).redirect('/')
 }
+
+export default withApiAuthRequired(handle)
