@@ -7,7 +7,7 @@ import { UnlockIcon } from '@chakra-ui/icons'
 import { useUser, handleLogin, getSession } from '@auth0/nextjs-auth0';
 import { useRouter } from 'next/router'
 import { products } from '../lib/data'
-import prisma from '../lib/prisma'
+import { prisma } from '../lib/prisma'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type layoutProps = {

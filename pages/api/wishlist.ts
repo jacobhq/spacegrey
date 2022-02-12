@@ -1,6 +1,6 @@
 import { getSession, withApiAuthRequired } from "@auth0/nextjs-auth0"
 import { NextApiRequest, NextApiResponse } from "next"
-import prisma from "../../lib/prisma"
+import { prisma } from "../../lib/prisma"
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     const session = getSession(req, res)
@@ -17,11 +17,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         }
     })
 
-    const result = wishlist.map(({productId})=>(productId))
+    const result = wishlist.map(({ productId }) => (productId))
 
     const finalProducts = await prisma.product.findMany({
         where: {
-            id: {in: result}
+            id: { in: result }
         }
     })
 

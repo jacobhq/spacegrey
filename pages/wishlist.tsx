@@ -5,7 +5,7 @@ import * as React from 'react'
 import { ProductCard } from '../components/productCard'
 import { ProductGrid } from '../components/productGrid'
 import { useUser } from '@auth0/nextjs-auth0'
-import prisma from '../lib/prisma'
+import { prisma } from '../lib/prisma'
 import useSWR from 'swr'
 
 export default function Home({ products }: any): any {

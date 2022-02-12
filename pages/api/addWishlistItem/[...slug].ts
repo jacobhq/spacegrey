@@ -1,6 +1,6 @@
 import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import prisma from '../../../lib/prisma'
+import { prisma } from '../../../lib/prisma'
 
 async function handle(req: NextApiRequest, res: NextApiResponse) {
     const { slug } = req.query
