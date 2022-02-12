@@ -4,15 +4,14 @@ import { Box, Skeleton, Spinner, Text } from '@chakra-ui/react'
 import * as React from 'react'
 import { ProductCard } from '../components/productCard'
 import { ProductGrid } from '../components/productGrid'
-import { useUser } from '@auth0/nextjs-auth0'
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { prisma } from '../lib/prisma'
 import useSWR from 'swr'
 
-export default function Home({ products }: any): any {
-    const { user, error: userError, isLoading: authLoading } = useUser()
+function Wishlist() {
     // @ts-ignore
     const fetcher = (...args) => fetch(...args).then(res => res.json())
-    const { data, error } = useSWR('/api/wishlist', fetcher)
+    const { data, error } = useSWR('/api/wishlist', fetcher, { refreshInterval: 1000 })
 
     return (
         <div>
@@ -38,7 +37,4 @@ export default function Home({ products }: any): any {
     )
 }
 
-export const getServerSideProps = async ({ }) => {
-    const products = await prisma.product.findMany()
-    return { props: { products } }
-}
+export default withPageAuthRequired(Wishlist)

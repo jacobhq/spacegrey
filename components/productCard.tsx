@@ -10,6 +10,7 @@ import {
   Stack,
   StackProps,
   Text,
+  Tooltip,
   useBreakpointValue,
   useColorModeValue,
   useToast
@@ -18,7 +19,7 @@ import { useState } from 'react'
 import { Rating } from './rating'
 import { FavouriteButton } from './favouriteButton'
 import { PriceTag } from './priceTag'
-import { Product, products } from '../lib/data'
+import { Product } from '../lib/data'
 import { useRouter } from 'next/router'
 import { useUser } from '@auth0/nextjs-auth0'
 import useSWR from 'swr'
@@ -63,8 +64,8 @@ export const ProductCard = (props: Props) => {
   const [buying, setBuying] = useState('')
   // @ts-ignore
   const fetcher = (...args) => fetch(...args).then(res => res.json())
-  const { data: wishlist, error: wishlistErr } = useSWR(`/api/wishlist`, fetcher)
-  const { data: products, error: productsErr } = useSWR(`/api/products`, fetcher)
+  const { data: wishlist, error: wishlistErr } = useSWR(`/api/wishlist`, fetcher, { refreshInterval: 1000 })
+  const { data: products, error: productsErr } = useSWR(`/api/products`, fetcher, { refreshInterval: 1000 })
 
   function buy() {
     setBuying(id)
@@ -86,16 +87,17 @@ export const ProductCard = (props: Props) => {
             borderRadius={radius}
           />
         </AspectRatio>
-        <FavouriteButton
-          hidden={!user}
-          isLoading={authLoading || !wishlist && !wishlistErr}
-          position="absolute"
-          top="4"
-          right="4"
-          aria-label={`Add ${name} to your favourites`}
-          onClick={() => router.push(`/api/addWishlistItem/${product.id}`)}
-          color={products ? "red" : undefined}
-        />
+        {wishlist && <FavouriteButton
+            hidden={!user}
+            isLoading={authLoading || !wishlist && !wishlistErr}
+            position="absolute"
+            top="4"
+            right="4"
+            aria-label={`Add ${name} to your favourites`}
+            onClick={wishlist && wishlist[parseInt(id) - 1]?.id ? () => router.push(`/api/removeWishlistItem/${product.id}`) :() => router.push(`/api/addWishlistItem/${product.id}`)}
+            color={wishlist && wishlist[parseInt(id) - 1]?.id ? "red" : undefined}
+            onList={wishlist && wishlist[parseInt(id) - 1]?.id}
+          />}
       </Box>
       <Stack>
         <Stack spacing="1">

@@ -1,9 +1,14 @@
 import { Icon, IconButton, IconButtonProps, LightMode } from '@chakra-ui/react'
 import * as React from 'react'
-import { FiHeart } from 'react-icons/fi'
+import { FaHeart, FaRegHeart } from 'react-icons/fa'
 
-export const FavouriteButton = (props: IconButtonProps) => (
-  <LightMode>
+type favouriteButtonProps = IconButtonProps & {
+  onList: boolean
+}
+
+export function FavouriteButton(props: favouriteButtonProps ) {
+  console.log(props.onList)
+  return <LightMode>
     <IconButton
       isRound
       bg="white"
@@ -12,9 +17,9 @@ export const FavouriteButton = (props: IconButtonProps) => (
       _hover={{ transform: 'scale(1.1)' }}
       sx={{ ':hover > svg': { transform: 'scale(1.1)' } }}
       transition="all 0.15s ease"
-      icon={<Icon as={FiHeart} transition="all 0.15s ease" />}
+      icon={<Icon as={props.onList ? FaHeart : FaRegHeart} transition="all 0.15s ease" />}
       boxShadow="base"
       {...props}
     />
   </LightMode>
-)
+}
