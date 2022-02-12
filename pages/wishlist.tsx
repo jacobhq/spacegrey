@@ -29,7 +29,7 @@ export default function Home({ products }: any): any {
                                 <ProductCard key={product.id} product={product} />
                             ))}
                             {!data && !error && <Spinner />}
-                            {error && <Text>Error while loading, email jacob@omg.lol</Text>}
+                            {error && !data && <Text>Error while loading, email jacob@omg.lol</Text>}
                         </ProductGrid>
                     </Box>
                 </main>
