@@ -43,8 +43,8 @@ export default function Layout({ children, title }: layoutProps) {
   return (
     <div>
       <Head>
-        <title>{title ? title + ' | Matte black by JacobHQ' : 'Matte black by JacobHQ'}</title>
-        <meta name="description" content="Really cool matte black accessories that go together so well!" />
+        <title>{title ? title + ' | Space grey by JacobHQ' : 'Space grey by JacobHQ'}</title>
+        <meta name="description" content="Really cool space grey accessories that go together so well!" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -62,8 +62,8 @@ export default function Layout({ children, title }: layoutProps) {
                 </BreadcrumbItem>
               </Breadcrumb>
             </Box>
-            <Heading mb={2}>{title ? title : 'Matte black'}</Heading>
-            <Text>Really cool matte black accessories that go together so well!</Text>
+            <Heading mb={2}>{title ? title : 'Space grey'}</Heading>
+            <Text>Really cool space grey accessories that go together so well!</Text>
           </div>
           <ButtonGroup>
             <Menu>
