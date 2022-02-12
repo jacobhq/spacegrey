@@ -18,13 +18,40 @@ import { useState } from 'react'
 import { Rating } from './rating'
 import { FavouriteButton } from './favouriteButton'
 import { PriceTag } from './priceTag'
-import { Product } from '../lib/data'
+import { Product, products } from '../lib/data'
 import { useRouter } from 'next/router'
 import { useUser } from '@auth0/nextjs-auth0'
+import useSWR from 'swr'
 
 interface Props {
   product: Product
   rootProps?: StackProps
+}
+
+function useWishlist() {
+  // @ts-ignore
+  const fetcher = (...args) => fetch(...args).then(res => res.json())
+  const { data, error } = useSWR(`/api/wishlist`, fetcher)
+
+  return {
+    wishlist: data,
+    isLoading: !error && !data,
+    isError: error
+  }
+}
+
+function FavBtn() {
+  const { wishlist, isLoading, isError } = useWishlist()
+  const toast = useToast()
+
+  if (isLoading) return null
+  if (isError) return toast({
+    title: 'Error',
+    description: "Please email bugs@jacob.omg.lol",
+    status: 'error',
+    duration: 9000,
+    isClosable: true,
+  })
 }
 
 export const ProductCard = (props: Props) => {
@@ -34,12 +61,15 @@ export const ProductCard = (props: Props) => {
   const { user, error, isLoading: authLoading } = useUser()
   const radius = useBreakpointValue({ base: 'md', md: 'xl' })
   const [buying, setBuying] = useState('')
-  const toast = useToast()
+  // @ts-ignore
+  const fetcher = (...args) => fetch(...args).then(res => res.json())
+  const { data: wishlist, error: wishlistErr } = useSWR(`/api/wishlist`, fetcher)
+  const { data: products, error: productsErr } = useSWR(`/api/products`, fetcher)
 
   function buy() {
     setBuying(id)
     router.push(buyUrl)
-    setTimeout(function() {
+    setTimeout(function () {
       setBuying('')
     }, 3000)
   }
@@ -58,19 +88,13 @@ export const ProductCard = (props: Props) => {
         </AspectRatio>
         <FavouriteButton
           hidden={!user}
-          isLoading={authLoading}
+          isLoading={authLoading || !wishlist && !wishlistErr}
           position="absolute"
           top="4"
           right="4"
           aria-label={`Add ${name} to your favourites`}
-          onClick={() =>
-            toast({
-              title: 'Wishlist on the way',
-              description: "We're still building the wishlist!",
-              status: 'warning',
-              isClosable: true,
-            })
-          }
+          onClick={() => router.push(`/api/addWishlistItem/${product.id}`)}
+          color={products ? "red" : undefined}
         />
       </Box>
       <Stack>

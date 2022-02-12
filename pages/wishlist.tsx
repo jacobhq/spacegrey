@@ -5,7 +5,7 @@ import * as React from 'react'
 import { ProductCard } from '../components/productCard'
 import { ProductGrid } from '../components/productGrid'
 import { useUser } from '@auth0/nextjs-auth0'
-import { prisma, PrismaClient } from '@prisma/client'
+import prisma from '../lib/prisma'
 import useSWR from 'swr'
 
 function List(products: any) {
@@ -15,8 +15,6 @@ function List(products: any) {
 
     if (error) return <Text>Error while loading, email bugs@jacob.omg.lol</Text>
     if (!data) return <Skeleton />
-
-    console.log(data)
 
     return data.map((product: { id: string; name: string; currency: string; price: number; salePrice: number; flag: string; imageUrl: string; rating: number; ratingCount: number; description: string; images: { id: string; src: string; alt: string }[]; buyUrl: string; marketplace: string } | { id: string; name: string; currency: string; price: number; imageUrl: string; rating: number; ratingCount: number; description: string; images: { id: string; src: string; alt: string }[]; buyUrl: string; marketplace: string; salePrice?: undefined; flag?: undefined }) => (
         <ProductCard key={product.id} product={product} />
@@ -47,7 +45,6 @@ export default function Home({ products }: any): any {
 }
 
 export const getServerSideProps = async ({ }) => {
-    const prisma = new PrismaClient()
     const products = await prisma.product.findMany()
     return { props: { products } }
 }

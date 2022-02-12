@@ -25,8 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
     })
 
-    console.log(wishlist)
-
     return res.status(200).send(finalProducts)
 }
 

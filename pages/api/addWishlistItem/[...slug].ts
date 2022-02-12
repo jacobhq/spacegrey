@@ -27,11 +27,12 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
     const itemExists = await prisma.wishlistItem.findMany({
         where: {
-            userId: user[0].id
+            userId: user[0].id,
+            productId: parseInt(slug[0])
         }
     })
 
-    if (itemExists) return res.status(409).send('Item already on wishlist')
+    if (itemExists === []) return res.status(409).send('Item already on wishlist')
 
     const create = await prisma.wishlistItem.create({
         data: {
@@ -40,5 +41,5 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         }
     })
 
-    res.status(201).send('Item created')
+    res.status(201).redirect('/')
 }

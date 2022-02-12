@@ -25,9 +25,8 @@ export default function Layout({ children, title }: layoutProps) {
   const toast = useToast()
 
   function authClick() {
-    console.log('called', user)
     if (user) {
-      return console.log('Logged in')
+      return
     }
 
     setLoading(true)
