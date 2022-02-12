@@ -5,7 +5,7 @@ import * as React from 'react'
 import { ProductCard } from '../components/productCard'
 import { ProductGrid } from '../components/productGrid'
 import { useUser } from '@auth0/nextjs-auth0'
-import { prisma, PrismaClient } from '@prisma/client'
+import prisma from '../lib/prisma'
 
 export default function Home ({products}: any): any {
   const { user, error, isLoading: authLoading } = useUser()
@@ -33,7 +33,6 @@ export default function Home ({products}: any): any {
 }
 
 export const getServerSideProps = async ({}) => {
-  const prisma = new PrismaClient()
   const products = await prisma.product.findMany()
   return { props: { products } }
 }
