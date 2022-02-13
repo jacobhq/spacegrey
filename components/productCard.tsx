@@ -24,8 +24,9 @@ import { PriceTag } from './priceTag'
 import { Product } from '../lib/data'
 import { useRouter } from 'next/router'
 import { useUser } from '@auth0/nextjs-auth0'
-import useSWR from 'swr'
+import useSWR, { mutate } from 'swr'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
+import axios from 'axios'
 
 // Thank you so much to https://www.samanthaming.com/tidbits/81-how-to-check-if-array-includes-a-value/#checking-for-array-of-objects-using-some
 
@@ -41,9 +42,11 @@ export const ProductCard = (props: Props) => {
   const { user, error, isLoading: authLoading } = useUser()
   const radius = useBreakpointValue({ base: 'md', md: 'xl' })
   const [buying, setBuying] = useState('')
+  const [wishlistLoading, setWishlistLoading] = useState('')
   // @ts-ignore
   const fetcher = (...args) => fetch(...args).then(res => res.json())
-  const { data: wishlist, error: wishlistErr } = useSWR(`/api/wishlist`, fetcher)
+  const { data: wishlist, error: wishlistErr } = useSWR(`/api/wishlist`, fetcher, { refreshInterval: 1000 })
+  const toast = useToast()
 
   const onList = wishlist && wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product))
 
@@ -53,6 +56,49 @@ export const ProductCard = (props: Props) => {
     setTimeout(function () {
       setBuying('')
     }, 3000)
+  }
+
+  async function addToList() {
+    setWishlistLoading(id)
+    await axios.get(`/api/addWishlistItem/${id}`).then(() => {
+      toast({
+        title: "Added item to wishlist successfully",
+        description: `The item ${name} was successfully added`,
+        status: 'success',
+      })
+      mutate(`/api/wishlist`)
+      setWishlistLoading('')
+    }
+    ).catch(() => {
+      toast({
+        title: "Error adding to wishlist",
+        description: "Try again later",
+        status: 'error'
+      })
+      setWishlistLoading('')
+    })
+  }
+
+  async function removeFromList() {
+    setWishlistLoading(id)
+    await axios.get(`/api/removeWishlistItem/${id}`).then(() => {
+      toast({
+        title: "Removed item from wishlist successfully",
+        description: `The item ${name} was successfully removed`,
+        status: 'success',
+      })
+      mutate(`/api/wishlist`)
+      setWishlistLoading('')
+    }
+    ).catch(() => {
+      toast({
+        title: "Error removing from wishlist",
+        description: "Try again later",
+        status: 'error'
+      })
+      setWishlistLoading('')
+    }
+    )
   }
 
   return (
@@ -88,7 +134,14 @@ export const ProductCard = (props: Props) => {
             {marketplace ? 'Buy now on'.concat(' ', marketplace) : 'Buy now'}
           </Button>
           <Tooltip label={onList ? "Remove item from wishlist" : "Add item to wishlist"}>
-          <IconButton isLoading={!wishlist && !wishlistErr} isDisabled={wishlistErr} aria-label={onList ? "Remove item from wishlist" : "Add item to wishlist"} variant="outline" colorScheme={onList ? "red" : undefined} icon={<Icon as={onList ? FaHeart : FaRegHeart} />} />
+            <IconButton
+              isLoading={!wishlist && !wishlistErr || wishlistLoading === id}
+              isDisabled={wishlistErr} aria-label={onList ? "Remove item from wishlist" : "Add item to wishlist"}
+              variant="outline"
+              colorScheme={onList ? "red" : undefined}
+              icon={<Icon as={onList ? FaHeart : FaRegHeart} />}
+              onClick={onList ? removeFromList : addToList}
+            />
           </Tooltip>
         </HStack>
         <Link
