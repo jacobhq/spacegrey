@@ -49,7 +49,7 @@ export const ProductCard = (props: Props) => {
   const { data: wishlist, error: wishlistErr } = useSWR(`/api/wishlist`, fetcher, { refreshInterval: 1000 })
   const toast = useToast()
 
-  const onList = wishlist && wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product))
+  const onList = user && !authLoading ? wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product)) : null
 
   function buy() {
     setBuying(id)
@@ -138,14 +138,15 @@ export const ProductCard = (props: Props) => {
           <Button colorScheme="blue" isFullWidth onClick={buy} isLoading={buying === id} loadingText='Loading'>
             {marketplace ? 'Buy now on'.concat(' ', marketplace) : 'Buy now'}
           </Button>
-          <Tooltip label={onList ? "Remove item from wishlist" : "Add item to wishlist"}>
+          <Tooltip label={user && !authLoading ? onList ? "Remove item from wishlist" : "Add item to wishlist" : "Log in and add item to wishlist"}>
             <IconButton
               isLoading={!wishlist && !wishlistErr || wishlistLoading === id}
-              isDisabled={wishlistErr} aria-label={onList ? "Remove item from wishlist" : "Add item to wishlist"}
+              isDisabled={wishlistErr}
+              aria-label={onList ? "Remove item from wishlist" : "Add item to wishlist"}
               variant="outline"
               colorScheme={onList ? "red" : undefined}
               icon={<Icon as={onList ? FaHeart : FaRegHeart} />}
-              onClick={onList ? removeFromList : addToList}
+              onClick={user && !authLoading ? onList ? removeFromList : addToList : () => router.push(`/api/auth/login?returnTo=/api/addWishlistItem/${id}`)}
             />
           </Tooltip>
         </HStack>
