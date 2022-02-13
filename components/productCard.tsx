@@ -49,7 +49,7 @@ export const ProductCard = (props: Props) => {
   const { data: wishlist, error: wishlistErr } = useSWR(`/api/wishlist`, fetcher, { refreshInterval: 1000 })
   const toast = useToast()
 
-  const onList = user && !authLoading ? wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product)) : null
+  const onList = user && !authLoading ? wishlist && wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product)) : null
 
   function buy() {
     setBuying(id)
