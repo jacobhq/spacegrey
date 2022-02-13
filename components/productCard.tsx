@@ -4,6 +4,8 @@ import {
   Button,
   Center,
   HStack,
+  Icon,
+  IconButton,
   Image,
   Link,
   Skeleton,
@@ -23,6 +25,7 @@ import { Product } from '../lib/data'
 import { useRouter } from 'next/router'
 import { useUser } from '@auth0/nextjs-auth0'
 import useSWR from 'swr'
+import { FaHeart, FaRegHeart } from 'react-icons/fa'
 
 // Thank you so much to https://www.samanthaming.com/tidbits/81-how-to-check-if-array-includes-a-value/#checking-for-array-of-objects-using-some
 
@@ -41,6 +44,8 @@ export const ProductCard = (props: Props) => {
   // @ts-ignore
   const fetcher = (...args) => fetch(...args).then(res => res.json())
   const { data: wishlist, error: wishlistErr } = useSWR(`/api/wishlist`, fetcher)
+
+  const onList = wishlist && wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product))
 
   function buy() {
     setBuying(id)
@@ -62,17 +67,6 @@ export const ProductCard = (props: Props) => {
             borderRadius={radius}
           />
         </AspectRatio>
-        {wishlist && <FavouriteButton
-            hidden={!user}
-            isLoading={authLoading || !wishlist && !wishlistErr}
-            position="absolute"
-            top="4"
-            right="4"
-            aria-label={`Add ${name} to your favourites`}
-            onClick={wishlist && wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product)) ? () => router.push(`/api/removeWishlistItem/${product.id}`) :() => router.push(`/api/addWishlistItem/${product.id}`)}
-            color={wishlist && wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product)) ? "red" : undefined}
-            onList={wishlist && wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product))}
-          />}
       </Box>
       <Stack>
         <Stack spacing="1">
@@ -89,9 +83,14 @@ export const ProductCard = (props: Props) => {
         </HStack>
       </Stack>
       <Stack align="center">
-        <Button colorScheme="blue" isFullWidth onClick={buy} isLoading={buying === id} loadingText='Loading'>
-          {marketplace ? 'Buy now on'.concat(' ', marketplace) : 'Buy now'}
-        </Button>
+        <HStack width="100%">
+          <Button colorScheme="blue" isFullWidth onClick={buy} isLoading={buying === id} loadingText='Loading'>
+            {marketplace ? 'Buy now on'.concat(' ', marketplace) : 'Buy now'}
+          </Button>
+          <Tooltip label={onList ? "Remove item from wishlist" : "Add item to wishlist"}>
+          <IconButton isLoading={!wishlist && !wishlistErr} isDisabled={wishlistErr} aria-label={onList ? "Remove item from wishlist" : "Add item to wishlist"} variant="outline" colorScheme={onList ? "red" : undefined} icon={<Icon as={onList ? FaHeart : FaRegHeart} />} />
+          </Tooltip>
+        </HStack>
         <Link
           textDecoration="underline"
           fontWeight="medium"

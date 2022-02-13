@@ -8,18 +8,15 @@ type favouriteButtonProps = IconButtonProps & {
 
 export function FavouriteButton(props: favouriteButtonProps) {
 
-  return <LightMode>
-    <IconButton
-      isRound
-      bg="white"
-      color="gray.900"
-      size="sm"
-      _hover={{ transform: 'scale(1.1)' }}
-      sx={{ ':hover > svg': { transform: 'scale(1.1)' } }}
-      transition="all 0.15s ease"
-      icon={<Icon as={props.onList ? FaHeart : FaRegHeart} transition="all 0.15s ease" />}
-      boxShadow="base"
-      {...props}
-    />
-  </LightMode>
+  return <IconButton
+    isRound
+    colorScheme={props.onList ? "red" : undefined}
+    size="sm"
+    _hover={{ transform: 'scale(1.1)' }}
+    sx={{ ':hover > svg': { transform: 'scale(1.1)' } }}
+    transition="all 0.15s ease"
+    icon={<Icon as={props.onList ? FaHeart : FaRegHeart} transition="all 0.15s ease" />}
+    boxShadow="base"
+    {...props}
+  />
 }
