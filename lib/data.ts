@@ -27,7 +27,8 @@ export const products = [
       'With a sleek design and a captivating essence, this is a modern Classic made for every occasion.',
     images,
     buyUrl: 'https://www.amazon.co.uk/Logitech-Advanced-Illuminated-Bluetooth-Responsive/dp/B07W6HXZ5J?th=1',
-    marketplace: 'Amazon'
+    marketplace: 'Amazon',
+    verifiedColorMatch: true
   },
   {
     id: '2',
@@ -42,7 +43,8 @@ export const products = [
       'With a sleek design and a captivating essence, this is a modern Classic made for every occasion.',
     images,
     buyUrl: 'https://shop.pimoroni.com/products/argon-one-m-2-case-for-raspberry-pi-4',
-    marketplace: 'Pimoroni'
+    marketplace: 'Pimoroni',
+    verifiedColorMatch: true
   }
 ]
 

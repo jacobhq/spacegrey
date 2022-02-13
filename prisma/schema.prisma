@@ -1,11 +1,11 @@
 datasource db {
-  provider             = "postgresql"
-  url                  = env("DATABASE_URL")
-  shadowDatabaseUrl    = env("DATABASE_MIGRATE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("DATABASE_MIGRATE_URL")
 }
 
 generator client {
-  provider        = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 model User {
@@ -15,16 +15,17 @@ model User {
 }
 
 model Product {
-  id           Int            @id @default(autoincrement())
-  name         String
-  price        Int
-  salePrice    Int            @default(0)
-  imageUrl     String
-  flag         String?
-  description  String?
-  buyUrl       String
-  marketplace  String?
-  WishlistItem WishlistItem[]
+  id                 Int            @id @default(autoincrement())
+  name               String
+  price              Int
+  salePrice          Int            @default(0)
+  imageUrl           String
+  flag               String?
+  description        String?
+  buyUrl             String
+  marketplace        String?
+  verifiedColorMatch Boolean?       @default(false)
+  WishlistItem       WishlistItem[]
 }
 
 model WishlistItem {

@@ -27,6 +27,7 @@ import { useUser } from '@auth0/nextjs-auth0'
 import useSWR, { mutate } from 'swr'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 import axios from 'axios'
+import { GoUnverified, GoVerified } from 'react-icons/go'
 
 // Thank you so much to https://www.samanthaming.com/tidbits/81-how-to-check-if-array-includes-a-value/#checking-for-array-of-objects-using-some
 
@@ -37,7 +38,7 @@ interface Props {
 
 export const ProductCard = (props: Props) => {
   const { product, rootProps } = props
-  const { name, imageUrl, price, salePrice, rating, buyUrl, marketplace, id } = product
+  const { name, imageUrl, price, salePrice, rating, buyUrl, marketplace, id, verifiedColorMatch } = product
   const router = useRouter()
   const { user, error, isLoading: authLoading } = useUser()
   const radius = useBreakpointValue({ base: 'md', md: 'xl' })
@@ -101,6 +102,8 @@ export const ProductCard = (props: Props) => {
     )
   }
 
+  console.log(product)
+
   return (
     <Stack spacing={useBreakpointValue({ base: '4', md: '5' })} {...rootProps}>
       <Box position="relative">
@@ -119,7 +122,9 @@ export const ProductCard = (props: Props) => {
           <Text fontWeight="medium" color={useColorModeValue('gray.700', 'gray.400')}>
             {name}
           </Text>
-          <PriceTag price={price} salePrice={salePrice} currency="GBP" />
+          <HStack>
+            <PriceTag price={price} salePrice={salePrice} currency="GBP" />
+          </HStack>
         </Stack>
         <HStack hidden>
           <Rating defaultValue={rating} size="sm" />
@@ -144,13 +149,12 @@ export const ProductCard = (props: Props) => {
             />
           </Tooltip>
         </HStack>
-        <Link
-          textDecoration="underline"
-          fontWeight="medium"
-          color={useColorModeValue('gray.600', 'gray.400')}
-        >
-          Quick shop
-        </Link>
+        <Tooltip label="Verified color match means that the color will match with all other products on this site.">
+          <HStack>
+            <Icon as={verifiedColorMatch ? GoVerified : GoUnverified} />
+            <Text>{verifiedColorMatch && verifiedColorMatch ? 'Verified color match' : 'Color match not verified'}</Text>
+          </HStack>
+        </Tooltip>
       </Stack>
     </Stack>
   )
