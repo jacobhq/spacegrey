@@ -24,35 +24,11 @@ import { useRouter } from 'next/router'
 import { useUser } from '@auth0/nextjs-auth0'
 import useSWR from 'swr'
 
+// Thank you so much to https://www.samanthaming.com/tidbits/81-how-to-check-if-array-includes-a-value/#checking-for-array-of-objects-using-some
+
 interface Props {
   product: Product
   rootProps?: StackProps
-}
-
-function useWishlist() {
-  // @ts-ignore
-  const fetcher = (...args) => fetch(...args).then(res => res.json())
-  const { data, error } = useSWR(`/api/wishlist`, fetcher)
-
-  return {
-    wishlist: data,
-    isLoading: !error && !data,
-    isError: error
-  }
-}
-
-function FavBtn() {
-  const { wishlist, isLoading, isError } = useWishlist()
-  const toast = useToast()
-
-  if (isLoading) return null
-  if (isError) return toast({
-    title: 'Error',
-    description: "Please email bugs@jacob.omg.lol",
-    status: 'error',
-    duration: 9000,
-    isClosable: true,
-  })
 }
 
 export const ProductCard = (props: Props) => {
@@ -64,8 +40,7 @@ export const ProductCard = (props: Props) => {
   const [buying, setBuying] = useState('')
   // @ts-ignore
   const fetcher = (...args) => fetch(...args).then(res => res.json())
-  const { data: wishlist, error: wishlistErr } = useSWR(`/api/wishlist`, fetcher, { refreshInterval: 1000 })
-  const { data: products, error: productsErr } = useSWR(`/api/products`, fetcher, { refreshInterval: 1000 })
+  const { data: wishlist, error: wishlistErr } = useSWR(`/api/wishlist`, fetcher)
 
   function buy() {
     setBuying(id)
@@ -94,9 +69,9 @@ export const ProductCard = (props: Props) => {
             top="4"
             right="4"
             aria-label={`Add ${name} to your favourites`}
-            onClick={wishlist && wishlist[parseInt(id) - 1]?.id ? () => router.push(`/api/removeWishlistItem/${product.id}`) :() => router.push(`/api/addWishlistItem/${product.id}`)}
-            color={wishlist && wishlist[parseInt(id) - 1]?.id ? "red" : undefined}
-            onList={wishlist && wishlist[parseInt(id) - 1]?.id}
+            onClick={wishlist && wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product)) ? () => router.push(`/api/removeWishlistItem/${product.id}`) :() => router.push(`/api/addWishlistItem/${product.id}`)}
+            color={wishlist && wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product)) ? "red" : undefined}
+            onList={wishlist && wishlist.some((code: any) => JSON.stringify(code) === JSON.stringify(product))}
           />}
       </Box>
       <Stack>

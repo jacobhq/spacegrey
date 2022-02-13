@@ -6,8 +6,8 @@ type favouriteButtonProps = IconButtonProps & {
   onList: boolean
 }
 
-export function FavouriteButton(props: favouriteButtonProps ) {
-  console.log(props.onList)
+export function FavouriteButton(props: favouriteButtonProps) {
+
   return <LightMode>
     <IconButton
       isRound
