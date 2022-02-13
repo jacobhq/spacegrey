@@ -22,6 +22,7 @@ export default function Home ({products}: any): any {
           >
             <ProductGrid>
               {products.map((product: { id: string; name: string; currency: string; price: number; salePrice: number; flag: string; imageUrl: string; rating: number; ratingCount: number; description: string; images: { id: string; src: string; alt: string }[]; buyUrl: string; marketplace: string } | { id: string; name: string; currency: string; price: number; imageUrl: string; rating: number; ratingCount: number; description: string; images: { id: string; src: string; alt: string }[]; buyUrl: string; marketplace: string; salePrice?: undefined; flag?: undefined }) => (
+                // @ts-ignore
                 <ProductCard key={product.id} product={product} />
               ))}
             </ProductGrid>
