@@ -1,6 +1,7 @@
 import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../lib/prisma'
+import { analytics } from '../../../lib/sb'
 
 async function handle(req: NextApiRequest, res: NextApiResponse) {
     const { slug } = req.query
@@ -15,6 +16,13 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
         await prisma.user.create({
             data: {
                 auth0Id: session?.user.sub
+            }
+        })
+        analytics.user.set({
+            userId: session?.user.sub,
+            userData: {
+                email: session?.user.email,
+                name: session?.user.name
             }
         })
     }
@@ -38,6 +46,14 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
         data: {
             User: { connect: { id: user?.id } },
             Product: { connect: { id: parseInt(slug[0]) } }
+        }
+    })
+
+    analytics.track({
+        event: 'Added wishlist item',
+        userId: session?.user.sub,
+        data: {
+            productId: create.productId.toString()
         }
     })
 

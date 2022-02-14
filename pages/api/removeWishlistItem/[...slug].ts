@@ -1,6 +1,7 @@
 import { getSession, withApiAuthRequired } from '@auth0/nextjs-auth0'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../lib/prisma'
+import { analytics } from '../../../lib/sb'
 
 async function handle(req: NextApiRequest, res: NextApiResponse) {
     const { slug } = req.query
@@ -38,6 +39,14 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
         where: {
             userId: user[0].id,
             productId: parseInt(slug[0])
+        }
+    })
+
+    analytics.track({
+        event: 'Removed wishlist item',
+        userId: session?.user.sub,
+        data: {
+            productId: slug[0]
         }
     })
 
