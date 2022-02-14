@@ -4,7 +4,7 @@ import { prisma } from "../../lib/prisma"
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     const session = getSession(req, res)
-    const user = await prisma.user.findMany({
+    const user = await prisma.user.findFirst({
         where: {
             // @ts-ignore
             auth0Id: session.user.sub
@@ -13,7 +13,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const wishlist = await prisma.wishlistItem.findMany({
         where: {
-            userId: user[0].id
+            userId: user?.id
         }
     })
 

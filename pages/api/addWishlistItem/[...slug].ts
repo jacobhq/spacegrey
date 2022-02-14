@@ -5,7 +5,7 @@ import { prisma } from '../../../lib/prisma'
 async function handle(req: NextApiRequest, res: NextApiResponse) {
     const { slug } = req.query
     const session = getSession(req, res)
-    const userExists = await prisma.user.findMany({
+    const userExists = await prisma.user.findFirst({
         where: {
             auth0Id: session?.user.sub
         }
@@ -19,7 +19,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
         })
     }
 
-    const user = await prisma.user.findMany({
+    const user = await prisma.user.findFirst({
         where: {
             auth0Id: session?.user.sub
         }
@@ -27,16 +27,16 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
 
     const itemExists = await prisma.wishlistItem.findMany({
         where: {
-            userId: user[0].id,
+            userId: user?.id,
             productId: parseInt(slug[0])
         }
     })
 
-    if (itemExists === []) return res.status(409).send('Item already on wishlist')
+    if (itemExists !== []) return res.status(409).redirect('/')
 
     const create = await prisma.wishlistItem.create({
         data: {
-            User: { connect: { id: user[0].id } },
+            User: { connect: { id: user?.id } },
             Product: { connect: { id: parseInt(slug[0]) } }
         }
     })
@@ -44,4 +44,5 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
     res.status(201).redirect('/')
 }
 
+// @ts-ignore
 export default withApiAuthRequired(handle)
