@@ -32,7 +32,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse) {
         }
     })
 
-    if (itemExists !== []) return res.status(409).redirect('/')
+    if (!itemExists) return res.status(409).redirect('/')
 
     const create = await prisma.wishlistItem.create({
         data: {
