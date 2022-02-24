@@ -1,5 +1,5 @@
 import { HamburgerIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
-import { Container, Heading, HStack, IconButton, useColorMode, Text, Box, ButtonGroup, MenuButton, Menu, MenuList, MenuItem, Skeleton, Tooltip, MenuDivider, Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useToast, Link, Slider, SliderFilledTrack, SliderThumb, SliderTrack, AspectRatio, Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
+import { Container, Heading, HStack, IconButton, useColorMode, Text, Box, ButtonGroup, MenuButton, Menu, MenuList, MenuItem, Skeleton, Tooltip, MenuDivider, Modal, Button, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, VStack, useToast, Link, Slider, SliderFilledTrack, SliderThumb, SliderTrack, AspectRatio, Breadcrumb, BreadcrumbItem, BreadcrumbLink, SlideFade } from '@chakra-ui/react'
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { Key, ReactNode, useState } from 'react'
@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 import { products } from '../lib/data'
 import { prisma } from '../lib/prisma'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { Footer } from './footer'
 
 type layoutProps = {
   title?: string,
@@ -20,7 +21,6 @@ export default function Layout({ children, title }: layoutProps) {
   const { user, error, isLoading: authLoading } = useUser();
   const [isLoading, setLoading] = useState(false)
   const router = useRouter()
-  const { isOpen, onOpen, onClose } = useDisclosure()
   const { isOpen: isDonateOpen, onOpen: onDonateOpen, onClose: onDonateClose } = useDisclosure()
   const toast = useToast()
 
@@ -51,7 +51,7 @@ export default function Layout({ children, title }: layoutProps) {
       <Container mt={16} maxW='container.lg'>
         <HStack justify="space-between">
           <div>
-          <Box mb={4} hidden={!title}>
+            <Box mb={4} hidden={!title}>
               <Breadcrumb>
                 <BreadcrumbItem>
                   <BreadcrumbLink href='/'>Home</BreadcrumbLink>
@@ -67,7 +67,7 @@ export default function Layout({ children, title }: layoutProps) {
           </div>
           <ButtonGroup>
             <Menu>
-              {authLoading ? <IconButton variant="ghost" icon={<UnlockIcon />} aria-label="Log in" isLoading={isLoading || authLoading} onClick={authClick} /> : user ? <Tooltip isDisabled={isOpen || isDonateOpen} label="Open menu" aria-label="Open menu">
+              {authLoading ? <IconButton variant="ghost" icon={<UnlockIcon />} aria-label="Log in" isLoading={isLoading || authLoading} onClick={authClick} /> : user ? <Tooltip isDisabled={isDonateOpen} label="Open menu" aria-label="Open menu">
                 <MenuButton as={IconButton} variant="ghost" icon={<HamburgerIcon />} aria-label="Open menu" isLoading={isLoading || authLoading} onClick={authClick} />
               </Tooltip> : <Tooltip label="Log in" aria-label="Log in">
                 <IconButton variant="ghost" icon={<UnlockIcon />} aria-label="Log in" isLoading={isLoading || authLoading} onClick={authClick} />
@@ -113,6 +113,7 @@ export default function Layout({ children, title }: layoutProps) {
         <Box mt={16}>
           {children}
         </Box>
+        <Footer />
       </Container>
     </div>
   )
