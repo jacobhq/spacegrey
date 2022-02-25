@@ -41,8 +41,7 @@ export default function Home({ products, matchedProducts }: any): any {
             py={{ base: '6', md: '8', lg: '12' }}
           >
             <ProductGrid>
-              {computed.map((product: { id: string; name: string; currency: string; price: number; salePrice: number; flag: string; imageUrl: string; rating: number; ratingCount: number; description: string; images: { id: string; src: string; alt: string }[]; buyUrl: string; marketplace: string } | { id: string; name: string; currency: string; price: number; imageUrl: string; rating: number; ratingCount: number; description: string; images: { id: string; src: string; alt: string }[]; buyUrl: string; marketplace: string; salePrice?: undefined; flag?: undefined }) => (
-                // @ts-ignore
+              {computed.map((product: { id: string; name: string; currency: string; price: number; salePrice: number; flag: string; imageUrl: string; rating: number; ratingCount: number; description: string; images: { id: string; src: string; alt: string }[]; buyUrl: string; marketplace: string; verifiedColorMatch: boolean } | { id: string; name: string; currency: string; price: number; imageUrl: string; rating: number; ratingCount: number; description: string; images: { id: string; src: string; alt: string }[]; buyUrl: string; marketplace: string; verifiedColorMatch: boolean; salePrice?: undefined; flag?: undefined }) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </ProductGrid>

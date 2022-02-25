@@ -102,8 +102,6 @@ export const ProductCard = (props: Props) => {
     )
   }
 
-  console.log(product)
-
   return (
     <Stack spacing={useBreakpointValue({ base: '4', md: '5' })} {...rootProps}>
       <Box position="relative">
